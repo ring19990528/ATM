@@ -7,19 +7,35 @@ import android.widget.EditText;
 
 public class LoginActivity extends AppCompatActivity {
 
+    private EditText userid;
+    private EditText passwd;
+    private EditText edUserid;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
         findViews();
+        edUserid = findViewById(R.id.userid);
+        String userid = getSharedPreferences("atm",MODE_PRIVATE)
+                .getString("userid","");
+        edUserid.setText(userid);
     }
+
+    private void findViews() {
+        userid = findViewById(R.id.userid);
+        passwd = findViewById(R.id.passwd);
+    }
+
     public void login(View view){
-        EditText userid = findViewById(R.id.userid);
-        EditText passwd = findViewById(R.id.passwd);
         String name = userid.getText().toString();
         String pass = passwd.getText().toString();
         if("ring".equals(name) && "0528".equals(pass)){
-            setResult(RESULT_OK);
+          setResult(RESULT_OK);
+            getSharedPreferences("atm",MODE_PRIVATE)
+                    .edit()
+                    .putString("userid",name)
+                    .apply();
             finish();
         }
         else{
