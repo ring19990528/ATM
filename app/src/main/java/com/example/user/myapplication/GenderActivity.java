@@ -1,12 +1,13 @@
 
 package com.example.user.myapplication;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
 
-public class GenderActivity extends AppCompatActivity {
+public class GenderActivity extends BasicActivity {
 
     private EditText edgender;
 
@@ -18,12 +19,13 @@ public class GenderActivity extends AppCompatActivity {
     public void ok(View view){
         edgender = findViewById(R.id.ed_gender);
         String gender = edgender.getText().toString();
-        getSharedPreferences("user",MODE_PRIVATE)
-                .edit()
-                .putString("GENDER",gender)
-                .apply();
+        user.setGender(gender);
+        Intent main = new Intent(this,MainActivity.class);
+        main.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
+        startActivity(main);
 
-
-
+    }
+    public void back(View view){
+        finish();
     }
 }

@@ -6,25 +6,19 @@ import android.support.v7.app.AppCompatActivity;
 
 
 //CTRL+ALT+F快速鍵  Ctrl+alt+M     Ctrl+O override
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends BasicActivity {
 
     public static final int RC_LOGIN = 100;
-
+    boolean logon = false;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        boolean logon = false;
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
         if( !logon){
             Intent intent = new Intent(this,LoginActivity.class);
             startActivityForResult(intent,RC_LOGIN);
         }
-
     }
-
-
-
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -32,11 +26,12 @@ public class MainActivity extends AppCompatActivity {
             if(resultCode != RESULT_OK){
                 finish();
             }else{
-                //TODO:check nickname,age,gender exist
-                Intent intent = new Intent(this,NickNameActivity.class);
-                startActivity(intent);
+                logon = true;
+                if(user.isValid()) {
+                    Intent intent = new Intent(this, NickNameActivity.class);
+                    startActivity(intent);
+                }
             }
         }
     }
-
 }
